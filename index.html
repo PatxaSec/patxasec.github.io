@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>PatxaSec | Red Team Operator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="scanlines"></div>
+
+<div class="container">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="imagenes/patxasec.jpg" alt="logo">
+      <h2>PatxaSec</h2>
+      <p>Pentester | Red Team Operator</p>
+    </div>
+
+    <nav>
+      <a href="#home">Inicio</a>
+      <a href="#about">Quién soy</a>
+      <a href="#experience">Operaciones</a>
+      <a href="#certs">Certificaciones</a>
+      <a href="#blog">Artículos & Writeups</a>
+      <a href="#contact">Contacto</a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main>
+
+    <!-- TERMINAL -->
+    <section id="home">
+      <div class="terminal">
+        <h1>PatxaSec@redteam:~$ echo $SOUL</h1>
+        <p>Pentester · Red Team Operator · Especialista en Active Directory</p>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+<section id="about">
+  <h2>QUIÉN SOY</h2>
+
+  <div class="whoami-terminal">
+    <p>
+      <span class="prompt">operator@redteam:~$</span>
+      <span class="command">whoami</span>
+    </p>
+    <p class="output">
+      Ander Gutierrez Obieta (PatxaSec)<br>
+      Especialista en Seguridad Ofensiva
+    </p>
+  </div>
+
+  <!-- SPECIALIZATION JSON -->
+  <div class="whoami-terminal">
+    <p>
+      <span class="prompt">operator@redteam:~$</span>
+      <span class="command">cat specialization.json</span>
+    </p>
+    <p class="output">
+      {<br>
+      &nbsp;&nbsp;"role": "Pentester"<br>
+      &nbsp;&nbsp;"environment": "Corporate",<br>
+      &nbsp;&nbsp;"focus": "Active Directory",<br>
+      }
+    </p>
+  </div>
+
+  <!-- SCOPE CSV -->
+  <div class="whoami-terminal">
+    <p>
+      <span class="prompt">operator@redteam:~$</span>
+      <span class="command">cat scope.xml</span>
+    </p>
+    <p class="output">
+    &lt;engagement&gt;<br>
+    &nbsp;&nbsp;&lt;scope&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;internal /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;external /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;wifi /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;web /&gt;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&lt;mobile /&gt;<br>
+    &nbsp;&nbsp;&lt;/scope&gt;<br>
+    &lt;/engagement&gt;
+    </p>
+  </div>
+
+  <!-- FOCUS C -->
+  <div class="whoami-terminal">
+    <p>
+      <span class="prompt">operator@redteam:~$</span>
+      <span class="command">cat focus.c</span>
+    </p>
+    <p class="output">
+      #include &lt;stdio.h&gt;<br><br>
+      int main() {<br>
+      &nbsp;&nbsp;printf("Red Team\\n");<br>
+      &nbsp;&nbsp;printf("Directorio Activo\\n");<br>
+      &nbsp;&nbsp;printf("Movimientos laterales\\n");<br>
+      &nbsp;&nbsp;return 0;<br>
+      }
+    </p>
+  </div>
+
+</section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <h2>OPERACIONES</h2>
+
+      <div class="card">
+        <h3>Pentester · Empresa de Ciberseguridad (Confidencial)</h3>
+        <p>
+          Pentesting completo en entornos Active Directory, internos, externos, WiFi, web y mobile,
+          incluyendo post-explotación y reporting técnico.
+        </p>
+      </div>
+    </section>
+
+    <!-- CERTS -->
+    <section id="certs">
+      <h2>CERTIFICACIONES</h2>
+
+      <!-- CORE -->
+      <h3>CORE</h3>
+      <div class="cert-grid core">
+
+        <a href="certs/OSWP.pdf" target="_blank" class="cert-card core-card">
+          <img src="imagenes/oswp.png" alt="OSWP">
+        </a>
+
+        <div class="cert-card core-card in-progress">
+          <img src="imagenes/oscp.png" alt="OSCP">
+          <span class="overlay">EN PROGRESO</span>
+        </div>
+        
+        <div class="cert-card core-card in-progress">
+          <img src="imagenes/cape.png" alt="HTB CAPE">
+          <span class="overlay">EN PROGRESO</span>
+        </div>
+
+      </div>
+
+      <!-- ADDITIONAL -->
+      <h3 style="margin-top:30px;">ADICIONALES</h3>
+      <div class="cert-grid">
+
+        <a href="certs/NSE_1_Certification.pdf" target="_blank" class="cert-card">
+          <img src="imagenes/nse1.png" alt="NSE1">
+        </a>
+
+        <a href="certs/NSE_2_Certification.pdf" target="_blank" class="cert-card">
+          <img src="imagenes/nse2.png" alt="NSE2">
+        </a>
+
+        <a href="certs/NSE_3_Certificate - copia.pdf" target="_blank" class="cert-card">
+          <img src="imagenes/nse3.png" alt="NSE3">
+        </a>
+
+        <a href="certs/python certificate.pdf" target="_blank" class="cert-card">
+          <img src="imagenes/python.png" alt="Python">
+        </a>
+
+        <a href="certs/java certificate.pdf" target="_blank" class="cert-card">
+          <img src="imagenes/java.png" alt="Java">
+        </a>
+
+        <a href="certs/sql_advanced certificate.pdf" target="_blank" class="cert-card">
+          <img src="imagenes/sql.png" alt="SQL">
+        </a>
+
+        <a href="certs/IBM Data Science.pdf" target="_blank" class="cert-card">
+          <img src="imagenes/ibm.png" alt="IBM Data Science">
+        </a>
+
+        <a href="certs/Vulnerability Management Detection and Response (VMDR).pdf" target="_blank" class="cert-card">
+          <img src="imagenes/qualys.png" alt="Qualys VMDR">
+        </a>
+
+        <a href="certs/CyberSecurity-Asset-Management-(CSAM).pdf" target="_blank" class="cert-card">
+          <img src="imagenes/qualys.png" alt="Qualys CSAM">
+        </a>
+
+      </div>
+
+    </section>
+
+    <!-- BLOG -->
+<!-- REPOS -->
+<section id="repos">
+  <h2>REPOSITORIOS</h2>
+
+  <div class="cert-grid">
+
+    <a href="https://github.com/PatxaSec/Writeups" target="_blank" class="repo-card">
+      <img src="imagenes/htb.png" alt="Writeups Repo">
+      <span>Writeups</span>
+    </a>
+
+    <a href="https://github.com/PatxaSec/QualAna" target="_blank" class="repo-card">
+      <img src="imagenes/qualana.png" alt="GitHub">
+      <span>QualAna</span>
+    </a>
+
+    <a href="https://github.com/PatxaSec/DockerLabs" class="repo-card">
+      <img src="imagenes/dockerlabs.png" alt="Artículo">
+      <span>Dockerlabs CLI</span>
+    </a>
+
+    <a href="https://github.com/PatxaSec/BloodCLI" class="repo-card">
+      <img src="imagenes/blood.png" alt="Artículo">
+      <span>BloodCLI</span>
+    </a>
+
+    <a href="https://github.com/PatxaSec/SHA_Decrypt" class="repo-card">
+      <img src="imagenes/sha.png" alt="Artículo">
+      <span>SHA cracker</span>
+    </a>
+
+    <a href="https://github.com/PatxaSec/faraday-cli" class="repo-card">
+      <img src="imagenes/faraday.png" alt="Artículo">
+      <span>Faraday CLI (modificado)</span>
+    </a>
+
+  </div>
+</section>
+
+    <!-- CONTACT -->
+<section id="contact">
+  <h2>CONTACTO</h2>
+
+  <div class="cert-grid">
+
+    <a href="https://github.com/PatxaSec" target="_blank" class="repo-card">
+      <img src="imagenes/github.png" alt="GitHub">
+      <span>GitHub</span>
+    </a>
+
+  </div>
+</section>
+
+  </main>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
