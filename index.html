@@ -13,22 +13,47 @@
 <div class="container">
 
   <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="logo">
-      <img src="imagenes/patxasec.jpg" alt="logo">
-      <h2>PatxaSec</h2>
-      <p>Pentester | Red Team Operator</p>
+<aside class="sidebar">
+  <div class="logo">
+    <img src="imagenes/patxasec.jpg" alt="logo">
+    <h2>PatxaSec</h2>
+    <p>Pentester | Red Team Operator</p>
+  </div>
+
+  <nav>
+
+    <!-- INICIO DROPDOWN -->
+    <div class="nav-dropdown">
+      <div class="nav-main">Inicio ▾</div>
+      <div class="nav-sub">
+        <a href="index.html#home">Home</a>
+        <a href="index.html#about">Quién soy</a>
+        <a href="index.html#experience">Operaciones</a>
+        <a href="index.html#certs">Certificaciones</a>
+        <a href="index.html#repos">Repositorios</a>
+        <a href="index.html#contact">Contacto</a>
+      </div>
     </div>
 
-    <nav>
-      <a href="#home">Inicio</a>
-      <a href="#about">Quién soy</a>
-      <a href="#experience">Operaciones</a>
-      <a href="#certs">Certificaciones</a>
-      <a href="#blog">Repositorios</a>
-      <a href="#contact">Contacto</a>
-    </nav>
-  </aside>
+    <!-- WRITEUPS (ENLACE ÚNICO) -->
+    <div class="nav-item">
+      <a href="writeup.html">Writeups</a>
+    </div>
+
+    <!-- APUNTES DROPDOWN -->
+    <div class="nav-dropdown">
+      <div class="nav-main">Apuntes ▾</div>
+      <div class="nav-sub">
+        <a href="apuntes.html">Todo</a>
+        <a href="index.html#AD">AD</a>
+        <a href="index.html#about">Wi-Fi</a>
+        <a href="index.html#experience">Web</a>
+        <a href="index.html#certs">Starting Point</a>
+      </div>
+    </div>
+
+  </nav>
+</aside>
 
   <!-- Main -->
   <main>
@@ -128,65 +153,104 @@
 
       <!-- CORE -->
       <h3>CORE</h3>
-      <div class="cert-grid core">
+<div class="cert-grid core">
 
-        <a href="certs/OSWP.pdf" target="_blank" class="cert-card core-card">
-          <img src="imagenes/oswp.png" alt="OSWP">
-        </a>
+  <div class="cert-item">
+    <a href="certs/OSWP.pdf" target="_blank" class="cert-card core-card">
+      <img src="imagenes/oswp.png" alt="OSWP">
+    </a>
+    <span>OSWP</span>
+  </div>
 
-        <div class="cert-card core-card in-progress">
-          <img src="imagenes/oscp.png" alt="OSCP">
-          <span class="overlay">EN PROGRESO</span>
-        </div>
-        
-        <div class="cert-card core-card in-progress">
-          <img src="imagenes/cape.png" alt="HTB CAPE">
-          <span class="overlay">EN PROGRESO</span>
-        </div>
+  <div class="cert-item">
+    <div class="cert-card core-card in-progress">
+      <img src="imagenes/oscp.png" alt="OSCP">
+      <span class="overlay">EN PROGRESO</span>
+    </div>
+    <span>OSCP</span>
+  </div>
 
-      </div>
+  <div class="cert-item">
+    <div class="cert-card core-card in-progress">
+      <img src="imagenes/cape.png" alt="HTB CAPE">
+      <span class="overlay">EN PROGRESO</span>
+    </div>
+    <span>HTB CAPE</span>
+  </div>
+
+</div>
 
       <!-- ADDITIONAL -->
       <h3 style="margin-top:30px;">ADICIONALES</h3>
       <div class="cert-grid">
 
-        <a href="certs/NSE_1_Certification.pdf" target="_blank" class="cert-card">
-          <img src="imagenes/nse1.png" alt="NSE1">
-        </a>
+<div class="cert-grid">
 
-        <a href="certs/NSE_2_Certification.pdf" target="_blank" class="cert-card">
-          <img src="imagenes/nse2.png" alt="NSE2">
-        </a>
 
-        <a href="certs/NSE_3_Certificate - copia.pdf" target="_blank" class="cert-card">
-          <img src="imagenes/nse3.png" alt="NSE3">
-        </a>
+  <div class="cert-item">
+    <a href="certs/NSE_1_Certification.pdf" target="_blank" class="cert-card">
+      <img src="imagenes/nse1.png" alt="NSE1">
+    </a>
+    <span>NSE 1</span>
+  </div>
 
-        <a href="certs/python certificate.pdf" target="_blank" class="cert-card">
-          <img src="imagenes/python.png" alt="Python">
-        </a>
+  <div class="cert-item">
+    <a href="certs/NSE_2_Certification.pdf" target="_blank" class="cert-card">
+      <img src="imagenes/nse2.png" alt="NSE2">
+    </a>
+    <span>NSE 2</span>
+  </div>
 
-        <a href="certs/java certificate.pdf" target="_blank" class="cert-card">
-          <img src="imagenes/java.png" alt="Java">
-        </a>
+  <div class="cert-item">
+    <a href="certs/NSE_3_Certificate - copia.pdf" target="_blank" class="cert-card">
+      <img src="imagenes/nse3.png" alt="NSE3">
+    </a>
+    <span>NSE 3</span>
+  </div>
 
-        <a href="certs/sql_advanced certificate.pdf" target="_blank" class="cert-card">
-          <img src="imagenes/sql.png" alt="SQL">
-        </a>
+  <div class="cert-item">
+    <a href="certs/python certificate.pdf" target="_blank" class="cert-card">
+      <img src="imagenes/python.png" alt="Python">
+    </a>
+    <span>Python</span>
+  </div>
 
-        <a href="certs/IBM Data Science.pdf" target="_blank" class="cert-card">
-          <img src="imagenes/ibm.png" alt="IBM Data Science">
-        </a>
+  <div class="cert-item">
+    <a href="certs/java certificate.pdf" target="_blank" class="cert-card">
+      <img src="imagenes/java.png" alt="Java">
+    </a>
+    <span>Java</span>
+  </div>
 
-        <a href="certs/Vulnerability Management Detection and Response (VMDR).pdf" target="_blank" class="cert-card">
-          <img src="imagenes/qualys.png" alt="Qualys VMDR">
-        </a>
+  <div class="cert-item">
+    <a href="certs/sql_advanced certificate.pdf" target="_blank" class="cert-card">
+      <img src="imagenes/sql.png" alt="SQL">
+    </a>
+    <span>SQL Advanced</span>
+  </div>
 
-        <a href="certs/CyberSecurity-Asset-Management-(CSAM).pdf" target="_blank" class="cert-card">
-          <img src="imagenes/qualys.png" alt="Qualys CSAM">
-        </a>
+  <div class="cert-item">
+    <a href="certs/IBM Data Science.pdf" target="_blank" class="cert-card">
+      <img src="imagenes/ibm.png" alt="IBM Data Science">
+    </a>
+    <span>IBM Data Science</span>
+  </div>
 
-      </div>
+  <div class="cert-item">
+    <a href="certs/Vulnerability Management Detection and Response (VMDR).pdf" target="_blank" class="cert-card">
+      <img src="imagenes/qualys.png" alt="Qualys VMDR">
+    </a>
+    <span>Qualys VMDR</span>
+  </div>
+
+  <div class="cert-item">
+    <a href="certs/CyberSecurity-Asset-Management-(CSAM).pdf" target="_blank" class="cert-card">
+      <img src="imagenes/qualys.png" alt="Qualys CSAM">
+    </a>
+    <span>Qualys CSAM</span>
+  </div>
+
+</div>
 
     </section>
 
@@ -196,11 +260,6 @@
   <h2>REPOSITORIOS</h2>
 
   <div class="cert-grid">
-
-    <a href="https://github.com/PatxaSec/Writeups" target="_blank" class="repo-card">
-      <img src="imagenes/htb.png" alt="Writeups Repo">
-      <span>Writeups</span>
-    </a>
 
     <a href="https://github.com/PatxaSec/QualAna" target="_blank" class="repo-card">
       <img src="imagenes/qualana.png" alt="GitHub">
