@@ -69,19 +69,28 @@ const content = document.getElementById("content");
 const file = new URLSearchParams(window.location.search).get("file");
 
 if (content && file) {
+
   fetch(`Writeups/${file}`)
-    .then(res => res.text())
+    .then(res => {
+      if (!res.ok) throw new Error("No se encontró el archivo");
+      return res.text();
+    })
     .then(md => {
 
       const base = window.location.origin + "/Writeups/";
 
+      // 🔥 arreglar rutas de imágenes
       md = md.replaceAll("](Imágenes/", `](${base}Imágenes/`);
       md = md.replaceAll("](imagenes/", `](${base}imagenes/`);
 
+      // 🔥 render markdown
       content.innerHTML = marked.parse(md);
     })
     .catch(err => {
-      content.innerHTML = "Error cargando writeup";
+      content.innerHTML = "<p style='color:red;'>Error cargando writeup</p>";
       console.error(err);
     });
+
+} else {
+  content.innerHTML = "<p>No se especificó ningún writeup</p>";
 }
