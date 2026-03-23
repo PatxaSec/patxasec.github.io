@@ -91,6 +91,4 @@ if (content && file) {
       console.error(err);
     });
 
-} else {
-  content.innerHTML = "<p>No se especificó ningún writeup</p>";
 }
