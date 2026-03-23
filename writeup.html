@@ -142,10 +142,51 @@
     <div class="col difficulty easy">Easy</div>
   </a>
 
+  <!-- FORTRESS -->
+
+<a href="writeup.html?file=aws.md" class="writeup-row fortress-link">
+  <img src="imagenes/aws.png">
+  <div class="col name">AWS</div>
+  <div class="col os lab">Fortress</div>
+  <div class="col difficulty lab">Lab</div>
+</a>
+
+<a href="writeup.html?file=faraday.md" class="writeup-row fortress-link">
+  <img src="imagenes/faraday.png">
+  <div class="col name">Faraday</div>
+  <div class="col os lab">Fortress</div>
+  <div class="col difficulty lab">Lab</div>
+</a>
+
+<a href="writeup.html?file=synacktiv.md" class="writeup-row fortress-link">
+  <img src="imagenes/synacktiv.png">
+  <div class="col name">Synacktiv</div>
+  <div class="col os lab">Fortress</div>
+  <div class="col difficulty lab">Lab</div>
+</a>
+
+<a href="writeup.html?file=context.md" class="writeup-row fortress-link">
+  <img src="imagenes/context.png">
+  <div class="col name">Context</div>
+  <div class="col os lab">Fortress</div>
+  <div class="col difficulty lab">Lab</div>
+</a>
+
+<a href="writeup.html?file=akerva.md" class="writeup-row fortress-link">
+  <img src="imagenes/akerva.png">
+  <div class="col name">Akerva</div>
+  <div class="col os lab">Fortress</div>
+  <div class="col difficulty lab">Lab</div>
+</a>
+
+<a href="writeup.html?file=jet.md" class="writeup-row fortress-link">
+  <img src="imagenes/jet.png">
+  <div class="col name">Jet</div>
+  <div class="col os lab">Fortress</div>
+  <div class="col difficulty lab">Lab</div>
+</a>
+
 </div>
-
-    
-
 </section>
 
 
@@ -153,6 +194,20 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="script.js"></script>
+<div id="fortress-popup" class="popup hidden">
+  <div class="popup-box">
 
+    <h2>🔒 Secure Access</h2>
+    <p>Enter root flag to decrypt writeup</p>
+
+    <input type="password" id="flagInput" placeholder="HTB{********}">
+    <button onclick="checkAccess()">Authenticate</button>
+
+    <pre id="terminal"></pre>
+
+    <button class="close-btn" onclick="closePopup()">Close</button>
+
+  </div>
+</div>
 </body>
 </html>

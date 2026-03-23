@@ -383,11 +383,10 @@ z-index: 999;
 /* CONTENEDOR */
 .contact-grid {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-wrap: wrap;     
+  gap: 25px;           
   margin-top: 20px;
 }
-
 /* CARD */
 .contact-card {
   display: flex;
@@ -414,20 +413,23 @@ z-index: 999;
   box-shadow: 0 0 15px rgba(0, 255, 150, 0.4);
 }
 
-/* 🔥 FIX CLAVE: IMAGEN CONTROLADA */
 .contact-card img {
   width: 40px;
   height: 40px;
   object-fit: contain;
 
-  filter: invert(1) brightness(1.5);
   margin-bottom: 10px;
+}
+
+.invert-icon {
+  filter: invert(1) brightness(1.5);
 }
 
 /* TEXTO */
 .contact-card span {
   font-size: 0.9rem;
 }
+
 #content {
   width: 100%;
   max-width: 900px;     /* 🔥 clave */
@@ -571,7 +573,7 @@ z-index: 999;
   margin: 0 auto;             
 }
 
-.os {
+.os, .difficulty {
   opacity: 0.7;
   justify-content: center;
 }
@@ -616,6 +618,80 @@ z-index: 999;
   background: #000000;
   border: 1px solid #666;
   color: white;
+}
+
+/* ===== FORTRESS COMO OS ===== */
+.os.lab {
+  background: #2b0033;           /* base oscura */
+  border: 1px solid #ff00ff;     /* magenta */
+  color: #ff00ff;
+  opacity: 1;                    /* override del .os */
+}
+
+/* ===== LAB COMO DIFFICULTY ===== */
+.difficulty.lab {
+  background: #002a33;           /* cyan oscuro */
+  border: 1px solid #00d4ff;
+  color: #00d4ff;
+}
+
+/* Hover efectos (coherente con tu glow) */
+.writeup-row:hover .os.lab {
+  box-shadow: 0 0 8px rgba(255, 0, 255, 0.4);
+}
+
+.writeup-row:hover .difficulty.lab {
+  box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.popup-box {
+  background: #001a1a;
+  border: 1px solid #00ff9c;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  color: #00ff9c;
+  font-family: monospace;
+  min-width: 300px;
+}
+
+.popup-box input {
+  background: black;
+  color: #00ff9c;
+  border: 1px solid #00ff9c;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.popup-box button {
+  margin-top: 10px;
+  padding: 10px;
+  background: #00ff9c;
+  border: none;
+  cursor: pointer;
+}
+
+.close-btn {
+  margin-top: 20px;
+  background: transparent;
+  color: #ff4d4d;
+}
+
+.hidden {
+  display: none;
 }
 
 /* 📱 MOBILE */
