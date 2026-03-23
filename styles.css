@@ -380,36 +380,54 @@ z-index: 999;
 }
 
 /* CONTACT */
-.contact-list {
-display: flex;
-flex-direction: column;
-gap: 12px;
-margin-top: 15px;
+/* CONTENEDOR */
+.contact-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 20px;
 }
 
-.contact-item {
-display: flex;
-align-items: center;
-gap: 12px;
-padding: 10px 15px;
-background: #0b0f18;
-border: 1px solid #00ff9c22;
-border-radius: 6px;
-color: #00ff9c;
-text-decoration: none;
-transition: 0.2s;
+/* CARD */
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 120px;
+  height: 120px;
+
+  border: 1px solid rgba(0, 255, 150, 0.2);
+  border-radius: 10px;
+
+  background: rgba(0, 20, 20, 0.6);
+  text-decoration: none;
+  color: #00ff9c;
+
+  transition: 0.25s;
 }
 
-.contact-item:hover {
-border-color: #00ff9c;
-box-shadow: 0 0 10px #00ff9c33;
+/* HOVER */
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px rgba(0, 255, 150, 0.4);
 }
 
-.contact-item img {
-width: 22px;
-height: 22px;
+/* 🔥 FIX CLAVE: IMAGEN CONTROLADA */
+.contact-card img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+
+  filter: invert(1) brightness(1.5);
+  margin-bottom: 10px;
 }
 
+/* TEXTO */
+.contact-card span {
+  font-size: 0.9rem;
+}
 #content {
   width: 100%;
   max-width: 900px;     /* 🔥 clave */
@@ -654,7 +672,10 @@ padding: 15px;
 .cert-card { width: 90px; height: 90px; }
 .core .cert-card { width: 110px; height: 110px; }
 
-.repo-card img { width: 90px; height: 90px; }
+.repo-card img { 
+  width: 90px; 
+  height: 90px;
+}
 
 section { margin-bottom: 30px; }
 
