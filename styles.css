@@ -694,6 +694,23 @@ z-index: 999;
   display: none;
 }
 
+.fortress-link {
+  position: relative;
+}
+
+/* 🔒 Candado */
+.fortress-link::before {
+  content: "🔒";
+  position: absolute;
+  left: 15px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Ajuste para que no pise el icono */
+.fortress-link img {
+  margin-left: 15px;
+}
 /* 📱 MOBILE */
 
 
