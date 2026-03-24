@@ -457,7 +457,8 @@ def save_to_file(passwords, output_file):
 if __name__ == '__main__':
     passwords = find_matching_passwords(directory)
     save_to_file(passwords, output_file)
-    ```
+
+```
 
 ![image](Imágenes/20250521173848.png)
 
