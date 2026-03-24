@@ -7,13 +7,29 @@
 
 Como es común en las pruebas de penetración de Windows de la vida real, se iniciará la caja Firmado con credenciales para la siguiente cuenta que se puede utilizar para acceder al servicio MSSQL: `scott` / `Sm230-C5NatH`
 
+Este escenario representa un acceso inicial limitado a un servicio MSSQL en un entorno corporativo.
+
+El objetivo es evaluar:
+
+- Qué capacidades tiene un usuario SQL autenticado
+- Si es posible pivotar hacia Active Directory
+- Qué vectores permiten escalar privilegios fuera del contexto de la base de datos
+
+Este tipo de situaciones es común en entornos donde servicios backend están expuestos pero con privilegios restringidos.
+
 ---
 
 
 # Enumeración Inicial
 
   
-Sólo una instancia MSSQL es accesible en el puerto 1433, con el tráfico cifrado a través de SSL. 
+El único servicio accesible es MSSQL (1433), lo que implica:
+
+- No existe acceso directo al sistema operativo
+- No hay vectores web o SMB accesibles
+- Toda la explotación debe partir del contexto SQL
+
+Esto obliga a buscar vectores indirectos de ejecución o fuga de credenciales.
 
 Accedemos a la base de datos MSSQL expuesta utilizando las credenciales suministradas:
 
@@ -47,14 +63,25 @@ SELECT * FROM fn_my_permissions(NULL, 'SERVER');
 
 ![image](Imágenes/20251015085938.png)
   
-`scott` es mapeado en la base de datos y sólo posee `CONNECT SQL` y `VIEW ANY DATABASE`. No es `sysadmin`.
+El usuario `scott` tiene permisos muy limitados:
+
+- No es sysadmin
+- No puede ejecutar comandos en el sistema
+- No puede modificar configuración del servidor
+
+Esto obliga a buscar técnicas de evasión o abuso de funcionalidades existentes.
 
 #### Complementos de **impacket**
 
 ![image](Imágenes/20251015093239.png)
 
-  
-Los intentos de `EXEC sp_configure`, `RECONFIGURE` y activación de `xp_cmdshell` han sido denegados. Curiosamente, invocando `xp_dirtree 'c:\'` Es ejecutado sin rechazo, pero no devuelve ningún listado de directorios. 
+Aunque no es posible ejecutar comandos, ciertas funciones como `xp_dirtree` interactúan con el sistema de archivos.
+
+Esto permite:
+
+- Forzar autenticación hacia recursos externos
+- Capturar hashes NTLM
+- Pivotar desde SQL hacia Active Directory
   
 #### MSSQL NTLM Stealer 
 
@@ -80,6 +107,14 @@ Capturado NTLMv2:
 
 ![image](Imágenes/20251015092111.png)
 
+La autenticación forzada revela un hash NTLMv2 de una cuenta de servicio.
+
+Este tipo de cuentas suelen:
+
+- Tener privilegios elevados
+- Estar integradas en el dominio
+- Ser reutilizadas en múltiples servicios
+
 Rompemos con `hashcat`:
 
 Podemos copiar y guardar el hash en un archivo, o utilizar el generado por `responder` en `/usr/share/responder/logs/`.
@@ -89,6 +124,13 @@ hashcat -a 0 -m 5600 hash.txt /usr/share/wordlists/rockyou.txt -w 3
 ```
 
 ![image](Imágenes/20251015092433.png)
+
+La obtención de credenciales de dominio permite cambiar el enfoque:
+
+👉 de explotación SQL  
+👉 a compromiso de Active Directory
+
+Esto abre nuevas posibilidades de escalada.
   
 Sólo teníamos el puerto 1433 accesible, así que volvemos a MSSQL usando la credencial de dominio recuperada:
 
@@ -98,6 +140,13 @@ impacket-mssqlclient 'mssqlsvc:purPLE9795!@'@signed.htb -windows-auth
 
 >[!NOTE]
 >`scott` era un inicio de sesión SQL-autenticated (no -windows-auth). `mssqlsvc` es un **Windows Principal** que espera la autenticación integrada.
+
+Se analiza cómo los principals de Windows están mapeados dentro de SQL Server.
+
+Esto permite identificar:
+
+- Qué grupos tienen privilegios elevados
+- Cómo se traducen permisos de AD en SQL
 
 Con `SIGNED\mssqlsvc` ahora disfrutamos de privilegios más amplios dentro del entorno de la DB:
 
@@ -135,6 +184,13 @@ SELECT name, type_desc FROM sys.server_principals WHERE type_desc LIKE 'WINDOWS%
 ```
 
 ![image](Imágenes/20251015094140.png)
+
+Se identifica que miembros del grupo `SIGNED-IT` son mapeados como `sysadmin` en SQL Server.
+
+Esto implica que:
+
+- El control de pertenencia a este grupo equivale a privilegios máximos en SQL
+- Es posible escalar sin modificar directamente la configuración del servidor.
 
 `sys.server-principals` enumera algunos **windows principals** y **groups**  (por ejemplo: `SIGNED-IT`, Usuarios de dominio SIGNED, varios NT SERVICE).
 A continuación, confirmamos si los principals/grupos de Windows mapean roles elevados de servidor:
@@ -192,6 +248,15 @@ Ambos `SID` descifrados corresponden a `msdb Principals` no a cuentas humanas/do
 Dicho esto, los `cretificate-maped principals` pueden ser adquiridos: objetos firmados por un certificado que funciona con los privilegios de los mapas del certificado. Si un `certificate principal` tiene permisos elevados en el servidor, los módulos firmados pueden actuar con esos privilegios elevados.
 
 #### TGS Forgery
+
+
+Dado que no hay acceso directo a KDC/LDAP, se opta por forjar tickets Kerberos.
+
+Esto permite:
+
+- Suplantar identidades
+- Evitar autenticación tradicional
+- Obtener acceso privilegiado en servicios específicos
 
 Sabemos que los miembros de `SIGNED\IT` contienen `sysadmin` en el servidor SQL. Con un `Service Principal` en la mano, podemos aprovechar el `ticketer` para falsificar un TGS para `SIGNED\mssqlsvc`. Según el libro de jugadas de [thehacker.recipes](https://www.thehacker.recipes/ad/movement/kerberos/forged-tickets/golden#practice), el `TGS (RC4/NT hash)` requiere identificadores explícitos de dominio/usuario/grupo:
 
@@ -287,6 +352,12 @@ if __name__ == "__main__":
     main()
 ```
 
+La conversión de SID binarios permite:
+
+- Identificar dominio y RID
+- Construir tickets válidos
+- Entender la estructura interna de AD sin acceso directo a LDAP
+
 Decodificamos `mssqlsvc` y `IT`:
 
 ![image](Imágenes/20251015130805.png)
@@ -325,6 +396,13 @@ Una vez autenticados, ejecutamos la enumeración estándar y podemos observar qu
 ![image](Imágenes/20251015132001.png)
 
 #### RevShell
+
+
+Una vez obtenidos privilegios `sysadmin`, SQL Server permite ejecutar comandos en el sistema mediante `xp_cmdshell`.
+
+Esto transforma el acceso SQL en:
+
+- ejecución de código en el sistema operativo
 
 Como `sysadmin`, la funcionalidad `xp_cmdshell` se vuelve nuestra aliada definitiva. La activamos y mediante una carga útil bien elaborada, conseguimos al instante una conexión remota:
 
@@ -365,6 +443,12 @@ Adquiriendo así la flag de user...
 ![image](Imágenes/20251015133828.png)
 # Movimiento lateral y escalada
 
+Mediante la manipulación de grupos en el ticket Kerberos, es posible:
+
+- Incluir SIDs privilegiados
+- Suplantar cuentas de alto nivel
+- Escalar a Administrator
+
 Misteriosamente, podemos recrear el ticket `TGS` impersonando al `Administrator` añadiendo `SID` típicos de grupos por defecto:
 
 ```bash
@@ -383,7 +467,15 @@ Debido a la cartografía principal de MSSQL, el boleto falsificado eleva la sesi
 
 
 
-Desde el punto en el que estamos, podemos abusar de la función [OPENBROWSER BULK](https://learn.microsoft.com/en-us/sql/t-sql/functions/openrowset-bulk-transact-sql?view=sql-server-ver17) que sirve para leer archivos que son normalmente de nivel `Administrator Only`:
+Desde el punto en el que estamos, podemos abusar de la función [OPENBROWSER BULK](https://learn.microsoft.com/en-us/sql/t-sql/functions/openrowset-bulk-transact-sql?view=sql-server-ver17) que sirve para leer archivos que son normalmente de nivel `Administrator Only`.
+
+La función `OPENROWSET` permite leer archivos del sistema.
+
+Esto puede utilizarse para:
+
+- Acceder a archivos restringidos
+- Obtener credenciales
+- Extraer información sensible sin necesidad de shell interactiva
 
 Para leer la flag:
 
@@ -444,3 +536,24 @@ HAPPY HACKING
 ---
 
 ![image](Imágenes/20251015141824.png)
+
+---
+
+## Conclusión
+
+Este escenario demuestra cómo:
+
+- Un acceso inicial limitado a MSSQL
+- Puede escalar hasta compromiso total del sistema
+
+A través de:
+
+- Fuga de credenciales mediante NTLM
+- Reutilización de cuentas de servicio
+- Abuso de mapeo entre AD y SQL
+- Forjado de tickets Kerberos
+- Ejecución de código vía SQL
+
+El éxito radica en pivotar correctamente entre tecnologías (SQL → AD → Kerberos).
+
+Este tipo de ataques es altamente representativo de entornos corporativos reales.
