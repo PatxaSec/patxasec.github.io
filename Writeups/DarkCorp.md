@@ -1,10 +1,35 @@
 
----
+# DarkCorp – Attack Path Analysis (HTB)
 
 ![image](Imágenes/20250521170249.png)
 
-Una máquina Windows, donde primero leemos correos vía XSS en Roundcube, realizamos SQL Injection en el portal interno y encontramos las credenciales del sistema Linux.
-Para capturar el dominio, se utilizó una ruta que considero no intencionada mediante fuerza bruta de una cuenta capaz de modificar la política de grupo.
+---
+
+## Overview
+
+Entorno híbrido Linux/Windows con servicios web expuestos y backend corporativo conectado a un dominio interno.
+
+El compromiso completo del dominio se consigue encadenando múltiples vectores:
+
+- XSS en Roundcube para acceso a correos internos  
+- SQL Injection en portal interno con extracción de credenciales  
+- Acceso inicial a infraestructura interna vía SSH  
+- Enumeración de Active Directory  
+- Abuso de políticas de grupo (GPO) para escalar privilegios  
+
+Este escenario representa un caso realista donde varias vulnerabilidades de impacto medio permiten un compromiso total del dominio.
+
+---
+
+## Attack Chain Summary
+
+1. XSS en Roundcube → acceso a correos internos  
+2. Descubrimiento de subdominios → acceso a entorno de desarrollo  
+3. SQL Injection → extracción de credenciales  
+4. Acceso inicial (SSH) → pivot a red interna  
+5. Enumeración AD → identificación de usuario con privilegios GPO  
+6. Compromiso de cuenta mediante fuerza bruta controlada  
+7. Abuso de GPO → escalada a Domain Admin  
 
 ---
 
@@ -30,11 +55,17 @@ Podemos registrar una cuenta y también enviarnos una carta desde el sitio:
 |_http-server-header: nginx/1.22.1
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 Service detection performed. Please report any incorrect results at https://nmap.org/submit/
-.
-# Nmap done at Sat Feb 8 22:02:40 2025 -- 1 IP address (1 host up) scanned in 41.18 seconds
-```
 
-Añadimoos al `/etc/hosts`.
+```
+### Observations
+
+- Servicio web expuesto (HTTP)
+- Servicio de correo accesible (Roundcube)
+- Infraestructura aparentemente simple pero con indicios de entorno corporativo (dominios internos)
+
+Esto sugiere que el punto de entrada más probable será el servicio web o el correo.
+
+Añadimos al `/etc/hosts`.
 
 ```bash
 echo "10.10.11.54 drip.htb" | sudo tee -a /etc/hosts
@@ -71,9 +102,13 @@ otro usuario bcase@drip.htb :
 
 ![image](Imágenes/20250521170901.png)
 
-Esta versión de Roundcube permite hacer XSS con 0-click. Por lo tanto, utilizamos el CVE-2024-42008
-entendiendo las descripciones de este artículo.
-El codigo base tiene este aspecto:
+Se detecta Roundcube vulnerable a XSS (CVE-2024-42008), permitiendo exfiltración de correos sin interacción del usuario.
+
+Esto permite:
+
+- Acceso a información interna
+- Identificación de usuarios válidos
+- Descubrimiento de nuevos dominios
 
 ```js
 <body title="bgcolor=foo" name="bar style=animation-name:progress-bar-stripes
@@ -83,7 +118,7 @@ Foo
 ```
 
 Nuestro trabajo es leer las cartas de otros usuarios, las cuales pueden ser leidas en `http:-/mail.drip.htb/?_task=mail&_mbox=INBOX&_uid=1&_action=show` donde `_uid` es responsable del identificador del correo.
-Asique tomamos un script de un chico de un conocido foro y lo modificamos un poco:
+Asique tomamos un script de un conocido foro y lo modificamos para que funcione en este entorno:
 
 ```python
 import requests
@@ -197,7 +232,13 @@ Accedemos a la URL y ponemos una passwd.
 
 ![image](Imágenes/20250521171641.png)
 
-en `analitics` podemos ver un imput:
+## Internal Application Analysis
+
+Tras el acceso al panel interno, se identifican funcionalidades dinámicas (`analytics`) que interactúan con base de datos.
+
+Este tipo de funcionalidades suelen ser susceptibles a inyecciones si no están correctamente sanitizadas.
+
+En `analitics` podemos ver un imput:
 
 ![image](Imágenes/20250521171723.png)
 
@@ -518,3 +559,18 @@ Para adquirir la user necesitamos primero dumpearnos los secrets de `web-01` med
 ---
 
 HAPPY HACKING!!
+
+---
+
+## Conclusión
+
+Este escenario no depende de una única vulnerabilidad crítica, sino de la combinación de múltiples debilidades:
+
+- Exposición de información en correo
+- Mala gestión de credenciales
+- Falta de segmentación interna
+- Permisos excesivos en Active Directory
+
+El compromiso total del dominio es resultado de encadenar correctamente estos vectores.
+
+Este tipo de escenarios son comunes en entornos reales.

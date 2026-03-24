@@ -1,55 +1,95 @@
-
-
----
-
 ![image](Imágenes/20250602083020.png)
 
-
-El camino Tomado es:
-
-- ZIP concatenation
-- ACL Abuse
-- SeManageVolumePrivilege
-- Golden Certificate
 ---
 
+## Overview
 
-# Enumeración inicial
+Entorno Windows con aplicación web expuesta conectada a un dominio Active Directory.
 
+El compromiso completo se consigue encadenando múltiples vectores:
+
+- Subida de archivos mediante ZIP concatenation
+- Acceso inicial a sistema Windows
+- Extracción de credenciales desde base de datos
+- Abuso de permisos en Active Directory (ACL Abuse)
+- Escalada mediante privilegios locales (SeManageVolumePrivilege)
+- Abuso de certificados (ADCS) → Golden Certificate
+
+Este escenario refleja un entorno real donde múltiples debilidades permiten escalar desde acceso web hasta control total del dominio.
+
+---
+
+## Attack Chain Summary
+
+1. Registro en aplicación web → acceso a funcionalidad de subida  
+2. ZIP concatenation → ejecución de código remoto  
+3. Extracción de credenciales → acceso a dominio  
+4. Enumeración AD (BloodHound) → identificación de paths de privilegios  
+5. ACL Abuse → control sobre usuarios  
+6. Abuso de privilegios locales (SeManageVolumePrivilege)  
+7. Abuso de certificados → Golden Certificate  
+8. Compromiso total del dominio  
+
+---
+
+# Enumeración Inicial
 
 ## Puertos
 
 ![image](Imágenes/20250602100852.png)
 
+### Observations
+
+- Aplicación web accesible
+- Infraestructura aparentemente orientada a usuarios (profesores/alumnos)
+- Posible backend corporativo conectado a AD
+
+---
 
 ## Web
 
 ![image](Imágenes/20250602101444.png)
-
 ![image](Imágenes/20250602101515.png)
 
-Encontramos la opción de crear cuenta:
+Se identifica funcionalidad de registro:
 
 ![image](Imágenes/20250602103415.png)
-
 ![image](Imágenes/20250602103528.png)
 
-Creamos cuentas tanto de Profesor, como de alumno. Siendo la de alumno la única valida para ser explotada.
+Se crean cuentas de:
 
-Mediante `join` un curso random, podemos ver que se habilita un boton `submit` con el que subir un archivo:
+- Profesor  
+- Alumno  
 
+Solo la cuenta de alumno permite interacción explotable.
+
+---
+
+## Attack Surface – File Upload
+
+Mediante `join` a un curso:
 
 ![image](Imágenes/20250602103623.png)
-
-
-
 ![image](Imágenes/20250602103700.png)
 
-Subimos un ZIP como explicamos a continuación y conseguimos acceso.
+Se habilita subida de archivos.
 
-![image](Imágenes/20250602103723.png)
+Punto crítico:
+- Procesamiento de archivos por el servidor
+- Posible falta de validación
 
-# Acceso
+---
+
+# Acceso Inicial
+
+Se explota la funcionalidad de subida mediante ZIP concatenation.
+La funcionalidad de subida de archivos representa el punto más prometedor para obtener ejecución de código:
+
+- Entrada controlada por el usuario
+- Procesamiento en backend
+- Posible validación insuficiente de formatos
+
+Este tipo de vectores son comunes en aplicaciones web orientadas a usuarios.
 
 PASOS para explotar [zip concatenation](https://perception-point.io/blog/evasive-concatenated-zip-trojan-targets-windows-users/)
 1. Crear `.pdf` vacio: `touch false.pdf`
@@ -72,6 +112,14 @@ Y voilá!
 
 ![image](Imágenes/20250602111109.png)
 
+El acceso obtenido permite ejecutar comandos en el sistema objetivo.
+
+A partir de este punto, el objetivo pasa a ser:
+
+- Identificar credenciales reutilizables
+- Determinar si el sistema está unido a dominio
+- Buscar rutas de escalada hacia Active Directory
+
 
 Enumerando, llegamos a encontrar credenciales en texto plano de lo que parede una BBDD.
 
@@ -84,9 +132,26 @@ Abrimos la BBDD y sacamos los hashes:
 Guardamos cada uno en un archivo `.hash` diferente e intentamos crackearlo:
 
 ![image](Imágenes/20250602123837.png)
+
+La presencia de credenciales y estructura de usuarios sugiere que el sistema está integrado en un dominio Active Directory.
+
+Esto cambia el enfoque:
+- De explotación local  
+- A compromiso del dominio
+
 Sincronizamos con el DC y ejecutamos bloodhound:
 
 ![image](Imágenes/20250602205421.png)
+
+El análisis con BloodHound revela múltiples caminos de escalada.
+
+En lugar de seguir el camino más complejo, se prioriza:
+
+- Control directo sobre usuarios con privilegios (ACL Abuse)
+- Combinación con privilegios locales explotables
+- Escalada hacia ADCS para impacto máximo
+
+La decisión se basa en eficiencia operativa e impacto.
 
 # Movimiento lateral y Escalada
 
@@ -102,6 +167,16 @@ Pero tambien podemos ver si analizamos correctamente, que en caso de añadir a `
 Sacamos el NT hash de `Ryan.k`:
 
 ![image](Imágenes/20250602214036.png)
+
+Active Directory Certificate Services (ADCS) introduce vectores de ataque críticos cuando está mal configurado.
+
+El abuso de certificados permite:
+
+- Suplantar identidades privilegiadas
+- Obtener acceso persistente
+- Evadir mecanismos tradicionales de autenticación
+
+En este caso, se utiliza para obtener un Golden Certificate.
 
 Sacamos un certificado después de darnos acceso a `C:\` haciendo uso de `SeManageVolumeExploit.exe`:
 
@@ -123,3 +198,22 @@ HAPPY HACKING
 
 
 ![image](Imágenes/20250602223239.png)
+
+
+## Conclusión
+
+Este escenario demuestra cómo:
+
+- Un vector inicial sencillo (file upload)
+- Puede escalar hasta compromiso total del dominio
+
+A través de:
+
+- Exposición de credenciales
+- Permisos mal configurados en AD
+- Abuso de privilegios locales
+- Vulnerabilidades en ADCS
+
+El éxito no depende de una técnica aislada, sino de la capacidad de encadenar vectores con criterio.
+
+Este tipo de cadenas es representativo de entornos corporativos reales.

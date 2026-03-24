@@ -33,6 +33,16 @@ Ideal para quienes quieran reforzar su comprensión de técnicas post-explotaci�
 
 Partimos con las credenciales proporcionadas por el cliente para el usuario `levi.james`, un punto de partida habitual en entornos corporativos donde se facilita una cuenta de bajo privilegio para simular una intrusión interna realista.
 
+Este escenario representa un pentest interno clásico, donde el atacante dispone de credenciales válidas de bajo privilegio.
+
+El objetivo es evaluar:
+
+- Qué información puede obtener un usuario autenticado
+- Qué recursos internos están accesibles
+- Qué caminos de escalada existen dentro de Active Directory
+
+El enfoque se centra en maximizar el impacto a partir de acceso legítimo.
+
 ## Servicios Abiertos
 
 ```Bash
@@ -41,7 +51,22 @@ sudo nmap -p- --open -sSCV -Pn 10.10.11.70
 
 ![image](Imágenes/20250520152621.png)
 
+- Controlador de dominio accesible
+- Servicios clave de Active Directory expuestos (LDAP, Kerberos, SMB)
+- Entorno completamente integrado en AD
+
+Esto confirma que el foco debe ser la enumeración autenticada y el análisis de relaciones dentro del dominio.
+
 Nos acordamos de incluir `10.10.11.70    puppy.htb dc.puppy.htb` en el `/etc/hosts`
+
+Dado que se dispone de credenciales válidas, se prioriza la enumeración autenticada.
+
+Esto permite:
+
+- Obtener listados reales de usuarios
+- Identificar grupos y privilegios
+- Detectar posibles vectores de escalada
+
 ## Usuarios
 
 ```Bash
@@ -49,6 +74,7 @@ nxc smb puppy.htb -u levi.james -p 'KingofAkron2025!' --users
 ```
 
 ![image](Imágenes/20250520152937.png)
+
 Nos creamos un listado de usuarios:
 
 ```Bash
@@ -62,6 +88,16 @@ enum4linux -u 'levi.james' -p 'KingofAkron2025!' puppy.htb --pass-pol
 ```
 
 ![image](Imágenes/20250520155209.png)
+
+El acceso a shares corporativos es uno de los vectores más importantes en pentests internos.
+
+Estos pueden contener:
+
+- Backups
+- Archivos sensibles
+- Bases de datos o credenciales
+
+En este caso, el acceso al share `DEV` se convierte en un punto clave.
 
 ## Shares
 
@@ -88,12 +124,23 @@ smbclient -U 'levi.james' //10.10.11.70/dev
 
 ![image](Imágenes/20250520161607.png)
 
-Como podemos observar, hay un archivo `.kdbx` que podemos descargarnos, sacar el hash y conseguir acceso realizando fuerza bruta con john.
+El hallazgo de un archivo `.kdbx` representa una oportunidad crítica.
+
+KeePass suele almacenar:
+
+- Credenciales de usuarios
+- Accesos a servicios internos
+- Información sensible centralizada
+
+El crackeo de este archivo permite pivotar hacia cuentas con mayor privilegio.
+
 Para esta versión de archivo `kdbx`, es necesario descargar otro binario de john. [pincha aqui](https://github.com/openwall/john.git)
 Haciendo uso de este repositorio, primero necesitamos sacar el hash:
+
 ```bash
 keepass2john ~/htb/puppy/recovery.kdbx > ~/htb/puppy/hash_keepass
 ```
+
 ![image](Imágenes/20250520162622.png)
 para despues crackearlo con la misma versión de john:
 
@@ -102,7 +149,16 @@ para despues crackearlo con la misma versión de john:
 Acceso a keepass conseguido:
 
 ![image](Imágenes/20250520162908.png)
+
 # Acceso
+
+Con nuevas credenciales, se analiza el dominio mediante BloodHound.
+
+El objetivo es identificar:
+
+- Permisos delegados (ACLs)
+- Relaciones entre usuarios
+- Caminos de escalada efectivos
 
 Después de probar las diferentes opciones, solo las credenciales del usuario `Ant.edwards` son válidas.
 Lo cual aprovechamos para ejecutar `Bloodhound` y poder hacernos una idea de como proseguir:
@@ -116,6 +172,16 @@ Abriendo el archivo, podemos observar que el usuario `ant.edwards` es miembro de
 ![image](Imágenes/20250520163808.png)
 
 Para realizar el abuso de los ACL, nos automatizamos los pasos de forma que sea más rápida la adquisición del acceso por PtT (Pass the Ticket) y no caduque ningún paso anterior necesario.
+
+El análisis revela que el usuario `ant.edwards` tiene permisos `GenericAll`.
+
+Este tipo de privilegio es especialmente crítico porque permite:
+
+- Modificar atributos de otros usuarios
+- Resetear contraseñas
+- Escalar privilegios directamente
+
+Se prioriza este camino por su impacto inmediato.
 
 ```bash
 #!/bin/bash
@@ -148,23 +214,52 @@ Una vez sincronizados de forma exitosa, probamos el script anterior:
 
 Y con esto, conseguimos con éxito la `user.txt` Pero no es el final aún....
 
-
 # Movimiento lateral y Escalada
 
 Como usuario `adam.silver`, y despues de un rato enumerando, encontramos un `.zip` dentro de `C:\Backups`
 
 ![image](Imágenes/20250521000621.png)
 
-nos lo descomprimimos, y después de un rato buscando, encontramos la passwd de `steph.cooper` en `C:\Backups\site-backup-2024-12-30\puppy\nms-auth-config.xml.bak`
+Los directorios de backup son una fuente crítica de información en entornos corporativos.
+
+Suelen contener:
+
+- Configuraciones antiguas
+- Credenciales en texto plano
+- Información sensible no protegida
+
+En este caso, permiten obtener acceso adicional.
+
+Nos lo descomprimimos, y después de un rato buscando, encontramos la passwd de `steph.cooper` en `C:\Backups\site-backup-2024-12-30\puppy\nms-auth-config.xml.bak`
 
 ![image](Imágenes/20250521000920.png)
 ![image](Imágenes/20250521001000.png)
+
+El uso de Kerberos permite autenticarse sin necesidad de contraseñas en claro.
+
+Mediante la obtención de TGTs:
+
+- Se evita reintroducir credenciales
+- Se reduce ruido en el entorno
+- Se facilita el movimiento lateral
 
 Pedimos el TGT para ralizar un PtT(Pass the Ticket) como usuario `steph.cooper`:
 
 ![image](Imágenes/20250521001708.png)
 
-Después de un rato indagando dentro y visto el nombre de la máquina, llegAMOS a la conclusión de que necesitamos Abusar de DPAPI. [ver](https://www.thehacker.recipes/ad/movement/credentials/dumping/dpapi-protected-secrets#practice)
+Después de un rato indagando dentro y visto el nombre de la máquina, llegamos a la conclusión de que necesitamos Abusar de DPAPI. [ver](https://www.thehacker.recipes/ad/movement/credentials/dumping/dpapi-protected-secrets#practice)
+
+DPAPI protege credenciales y secretos en sistemas Windows.
+
+Sin embargo, si se dispone de:
+
+- Credenciales del usuario
+- Acceso a masterkeys
+
+Es posible descifrar información sensible como:
+
+- Credenciales almacenadas
+- Tokens de autenticación
 
 Necesito adquirir dos archivos:
 
@@ -223,55 +318,22 @@ Cabe destacar que en un entorno real, se haría un dump de los secrets y sería 
 
 HAPPY HACKING
 
----
+## Conclusión
 
-## Mitigaciones
+Este escenario demuestra cómo:
 
-Para prevenir los vectores de ataque utilizados en esta máquina, se recomiendan las siguientes medidas defensivas:
+- Un acceso inicial con credenciales válidas
+- Puede escalar hasta compromiso total del dominio
 
-### 1. **Control de acceso mínimo**
+A través de:
 
-- Aplicar el principio de **menor privilegio**: evitar que usuarios estándar tengan acceso a recursos innecesarios como compartidos `DEV`.
-    
-- Revisar miembros de grupos sensibles como `SENIOR DEVS` y auditar permisos ACL (`GenericAll`, `WriteOwner`, etc.).
-    
+- Enumeración interna efectiva
+- Acceso a recursos compartidos
+- Extracción de credenciales
+- Abuso de permisos en AD
+- Uso de Kerberos (PtT)
+- Abuso de DPAPI
 
-### 2. **Protección de credenciales**
+El compromiso no depende de una única vulnerabilidad, sino de la capacidad de encadenar múltiples vectores.
 
-- Evitar almacenar contraseñas en texto claro o archivos de configuración. En este caso, la contraseña de `steph.cooper` estaba expuesta en un archivo `.xml.bak`.
-    
-- Configurar KeePass para usar una clave maestra más robusta (combinación de contraseña + keyfile).
-    
-- Asegurar el uso de versiones actualizadas de KeePass y reforzar la protección del archivo `.kdbx`.
-    
-
-### 3. **Defensa contra abuso de Kerberos**
-
-- Habilitar **logging avanzado de Kerberos** (eventos 4768, 4769, 4771, 4776).
-    
-- Usar cuentas con SmartCard o configuradas con `Do not require Kerberos preauthentication` **solo si es imprescindible**, ya que este atributo fue abusado.
-    
-- Limitar la validez de los TGTs y monitorizar su uso.
-    
-
-### 4. **Bloqueo de herramientas y técnicas conocidas**
-
-- Detectar el uso de herramientas como `BloodHound`, `bloodyAD`, `getTGT.py` mediante EDRs y reglas de detección personalizadas.
-    
-- Monitorear accesos y transferencias sospechosas de archivos en rutas como `AppData\Roaming\Microsoft\Credentials` o `Protect`.
-    
-
-### 5. **Seguridad en backups**
-
-- No almacenar contraseñas ni archivos sensibles sin cifrado en backups.
-    
-- Validar que los backups estén ubicados en rutas seguras y con permisos controlados.
-    
-
-### 6. **Protección de DPAPI**
-
-- Asegurar que las **masterkeys** estén protegidas con contraseñas fuertes.
-    
-- Usar BitLocker o EFS para cifrar el perfil completo del usuario.
-    
-- Detectar accesos inusuales a rutas como `AppData\Roaming\Microsoft\Protect`.
+Este tipo de escenarios es representativo de pentests internos reales.

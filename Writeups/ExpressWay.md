@@ -1,6 +1,3 @@
-
----
-
 ![image](Imágenes/20250925102729.png)
 
 ---
@@ -9,6 +6,20 @@
 - PSK-crack
 - PSWD Reuse
 - CVE-2025-32463
+
+---
+
+## Contexto del entorno
+
+La presencia de un servicio IKE (UDP 500) indica que el host actúa como punto de entrada VPN.
+
+En entornos reales, este tipo de servicios suele:
+
+- Exponer autenticación basada en PSK o certificados
+- Permitir acceso a red interna tras autenticación
+- Ser objetivo habitual en ataques de acceso inicial
+
+Esto convierte el servicio VPN en un vector prioritario de análisis.
 
 ---
 
@@ -44,6 +55,15 @@ El puerto UDP 500 suele asignarse a ISAKMP / IKE (VPN IPsec). Conclusiones:
 > [!NOTE]  
 > IKE (Internet Key Exchange) coordina las asociaciones criptográficas utilizadas por IPsec. En términos sencillos: IKE es el protocolo de enlace que permite a dos extremos negociar claves, algoritmos e identidades para que puedan establecer túneles cifrados (ESP/AH).
 
+Dado que no existen servicios TCP expuestos (excepto SSH), el foco se traslada a servicios UDP.
+
+El puerto 500 (IKE) es especialmente interesante porque:
+
+- Puede filtrar información en modo agresivo
+- Permite ataques offline contra PSK
+- No requiere interacción directa con el sistema
+
+Se prioriza este vector por su potencial de acceso inicial sin necesidad de explotación compleja.
 
 Para obtener huellas digitales y mapear **IKE**, podemos utilizar `ike-scan`. Este programa crea paquetes IKE, obtiene respuestas de proveedores/identidades/propuestas y obtiene huellas digitales del responder.
 
@@ -70,8 +90,15 @@ Ending ike-scan 1.9.6: 1 hosts scanned in 0.048 seconds (20.91 hosts/sec).  1 re
 
 ```
 
-- Adquisición
-Producir los parámetros de grietas PSK con -P(escribe PSK de modo agresivo para crackear localmente a través del ataque psk-crack):
+
+El uso de IKEv1 en modo agresivo permite capturar material suficiente para realizar ataques offline contra la clave precompartida (PSK).
+
+Este comportamiento es crítico porque:
+
+- No requiere autenticación previa
+- Permite ataques de diccionario offline
+- No genera ruido significativo en el sistema objetivo
+
 
 ```bash
 sudo ike-scan -A expressway.htb --id=ike@expressway.htb -Pike.psk
@@ -95,6 +122,14 @@ psk-crack -d /usr/share/wordlists/rockyou.txt ike.psk
 Adquirimos la contraseña `freakingrockstarontheroad` del usuario `ike` para probar su reutilización por `SSH` y conseguir el acceso.
 # Acceso
 
+Una vez obtenida la PSK, se prueba su reutilización en otros servicios.
+
+Esto se basa en un patrón común en entornos reales:
+
+- reutilización de credenciales entre servicios
+
+En este caso, la contraseña del usuario `ike` es válida para SSH, permitiendo acceso directo al sistema.
+
 Conseguimos acceder por `SSH`, mediante la utilización de la contraseña conseguida.
 
 ![image](Imágenes/20250925110226.png)
@@ -105,7 +140,23 @@ Encontrando así la `user.txt`:
 
 # Movimiento lateral y escalada
 
-Encontramos que la versión de `sudo` es vulnerable a `CVE-2025-32463` 
+Una vez obtenido acceso al sistema, se realiza enumeración de privilegios locales.
+
+El objetivo es identificar:
+
+- Binarios con privilegios elevados
+- Versiones vulnerables
+- Posibles vectores de escalada sin interacción del usuario
+
+Se detecta que la versión de `sudo` es vulnerable a una vulnerabilidad conocida. `CVE-2025-32463` 
+
+La vulnerabilidad permite escalar privilegios a root mediante abuso de `sudo`.
+
+Este tipo de fallos son especialmente críticos porque:
+
+- Proporcionan escalada directa
+- No requieren interacción adicional
+- Permiten compromiso total del sistema
 
 ![image](Imágenes/20250925111235.png)
 
@@ -123,8 +174,27 @@ Ejecutamos el script, y nos concede directamente una shell como root consiguiend
 ![image](Imágenes/20250925111630.png)
 
 ---
+
 HAPPY HACKING
 
 ---
 
 ![image](Imágenes/20250925111714.png)
+
+## Conclusión
+
+Este escenario demuestra cómo:
+
+- Un servicio aparentemente secundario (VPN)
+- Puede convertirse en punto de entrada crítico
+
+A través de:
+
+- Filtrado de información en IKE
+- Ataques offline contra PSK
+- Reutilización de credenciales
+- Vulnerabilidades locales
+
+El compromiso completo del sistema se logra sin necesidad de exploits complejos en servicios expuestos.
+
+Este tipo de cadenas es común en entornos corporativos donde la seguridad perimetral depende de configuraciones incorrectas.
