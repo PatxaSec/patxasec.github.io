@@ -60,13 +60,13 @@
 
     <!-- TERMINAL -->
     <section id="home">
-      <div class="terminal">
-        <h1>PatxaSec@redteam:~$ echo $SOUL</h1>
-        <p>Pentester · Red Team Operator · Especialista en Active Directory</p>
-      </div>
-    </section>
+  <div class="terminal">
+    <h1>PatxaSec@redteam:~$ echo $SOUL</h1>
+    <p>Offensive Security · Active Directory · Internal Infrastructure · Red Team Operations</p>
+  </div>
+</section>
 
-    <!-- ABOUT -->
+<!-- ABOUT -->
 <section id="about">
   <h2>QUIÉN SOY</h2>
 
@@ -77,7 +77,8 @@
     </p>
     <p class="output">
       Ander Gutierrez Obieta (PatxaSec)<br>
-      Especialista en Seguridad Ofensiva
+      Pentester especializado en Active Directory y entornos internos<br>
+      Experiencia en operaciones ofensivas end-to-end en entornos corporativos
     </p>
   </div>
 
@@ -89,14 +90,20 @@
     </p>
     <p class="output">
       {<br>
-      &nbsp;&nbsp;"role": "Pentester"<br>
+      &nbsp;&nbsp;"role": "Pentester",<br>
       &nbsp;&nbsp;"environment": "Corporate",<br>
-      &nbsp;&nbsp;"focus": "Active Directory",<br>
+      &nbsp;&nbsp;"focus": [<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;"Active Directory",<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;"Internal Infrastructure",<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;"Post-Exploitation",<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;"Attack Path Chaining"<br>
+      &nbsp;&nbsp;],<br>
+      &nbsp;&nbsp;"approach": "End-to-End Offensive Operations"<br>
       }
     </p>
   </div>
 
-  <!-- SCOPE CSV -->
+  <!-- SCOPE XML -->
   <div class="whoami-terminal">
     <p>
       <span class="prompt">operator@redteam:~$</span>
@@ -115,7 +122,7 @@
     </p>
   </div>
 
-  <!-- FOCUS C -->
+  <!-- FOCUS -->
   <div class="whoami-terminal">
     <p>
       <span class="prompt">operator@redteam:~$</span>
@@ -124,33 +131,57 @@
     <p class="output">
       #include &lt;stdio.h&gt;<br><br>
       int main() {<br>
-      &nbsp;&nbsp;printf("Red Team\\n");<br>
-      &nbsp;&nbsp;printf("Directorio Activo\\n");<br>
-      &nbsp;&nbsp;printf("Movimientos laterales\\n");<br>
+      &nbsp;&nbsp;printf("Active Directory\\n");<br>
+      &nbsp;&nbsp;printf("Internal Operations\\n");<br>
+      &nbsp;&nbsp;printf("Lateral Movement & Post-Exploitation\\n");<br>
       &nbsp;&nbsp;return 0;<br>
       }
     </p>
   </div>
 
+  <!-- METHODOLOGY -->
+  <div class="whoami-terminal">
+    <p>
+      <span class="prompt">operator@redteam:~$</span>
+      <span class="command">cat methodology.txt</span>
+    </p>
+    <p class="output">
+      - Enumeración orientada a privilegios y relaciones en el dominio<br>
+      - Identificación de attack paths y encadenamiento de debilidades<br>
+      - Priorización de impacto real frente a explotación aislada<br>
+      - Adaptación al entorno y controles defensivos existentes<br>
+      - Toma de decisiones basada en contexto técnico y de negocio
+    </p>
+  </div>
+
 </section>
 
-    <!-- EXPERIENCE -->
-    <section id="experience">
-      <h2>OPERACIONES</h2>
+<!-- EXPERIENCE -->
+<section id="experience">
+  <h2>OPERACIONES</h2>
 
-      <div class="card">
+  <div class="card">
     <p>
       <span class="prompt">operator@redteam:~$</span>
       <span class="command">cat operations.md</span>
     </p>
-        <h3># Pentester · Empresa de Ciberseguridad (Confidencial)</h3>
-        <p>- Ejecución completa de auditorías internas de Active Directory, incluyendo enumeración avanzada, explotación de configuraciones inseguras, movimiento lateral y post-explotación.</p>
-        <p>- Auditorías ofensivas internas, externas, Wi-Fi, web y mobile (APK) realizadas de forma autónoma.</p>
-        <p>- Único pentester de la compañía durante 2 años, responsable del ciclo completo de auditoría: planificación, ejecución, reporting y entrega a cliente.</p>
-        <p>- Gestión de vulnerabilidades mediante Qualys y OpenVAS, incluyendo priorización y comunicación de riesgos.</p>
-        <p>- Interlocución directa con clientes y equipos técnicos para explicación de hallazgos y mitigaciones.</p>
-      </div>
-    </section>
+
+    <h3># Pentester · Empresa de Ciberseguridad (Confidencial)</h3>
+
+    <p>- Ejecución end-to-end de auditorías internas de Active Directory en entornos corporativos, incluyendo enumeración avanzada, explotación de configuraciones inseguras y encadenamiento de vectores de ataque.</p>
+
+    <p>- Experiencia en movimiento lateral y post-explotación en entornos Windows, priorizando impacto real sobre explotación aislada.</p>
+
+    <p>- Auditorías ofensivas internas, externas, Wi-Fi, web y mobile (APK), adaptando el enfoque según la superficie y el contexto del entorno.</p>
+
+    <p>- Participación en el ciclo completo de auditoría: planificación, ejecución, reporting técnico y entrega a cliente.</p>
+
+    <p>- Gestión y priorización de vulnerabilidades mediante Qualys y OpenVAS, orientada a riesgo real y contexto de negocio.</p>
+
+    <p>- Interlocución directa con clientes y equipos técnicos para explicación de hallazgos, impacto y estrategias de mitigación.</p>
+
+  </div>
+</section>
     <!-- CERTS -->
     <section id="certs">
       <h2>CERTIFICACIONES</h2>
