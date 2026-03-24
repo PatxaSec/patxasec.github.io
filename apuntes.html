@@ -13,65 +13,55 @@
 <div class="container">
 
   <!-- Sidebar -->
-<aside class="sidebar">
-  <div class="logo">
-    <img src="imagenes/patxasec.jpg" alt="logo">
-    <h2>PatxaSec</h2>
-    <p>Pentester | Red Team Operator</p>
-  </div>
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="imagenes/patxasec.jpg" alt="logo">
+      <h2>PatxaSec</h2>
+      <p>Pentester | Red Team Operator</p>
+    </div>
 
-  <nav>
-
-    <!-- INICIO DROPDOWN -->
-    <div class="nav-dropdown">
-      <div class="nav-main">Inicio ▾</div>
-      <div class="nav-sub">
-        <a href="index.html#home">Home</a>
-        <a href="index.html#about">Quién soy</a>
-        <a href="index.html#experience">Operaciones</a>
-        <a href="index.html#certs">Certificaciones</a>
-        <a href="index.html#repos">Repositorios</a>
-        <a href="index.html#contact">Contacto</a>
+    <nav>
+      <div class="nav-dropdown">
+        <div class="nav-main">Inicio ▾</div>
+        <div class="nav-sub">
+          <a href="index.html#home">Home</a>
+          <a href="index.html#about">Quién soy</a>
+          <a href="index.html#experience">Operaciones</a>
+          <a href="index.html#certs">Certificaciones</a>
+          <a href="index.html#repos">Repositorios</a>
+          <a href="index.html#contact">Contacto</a>
+        </div>
       </div>
-    </div>
 
-    <!-- WRITEUPS (ENLACE ÚNICO) -->
-    <div class="nav-item">
-      <a href="writeup.html">Writeups</a>
-    </div>
-
-    <!-- APUNTES DROPDOWN -->
-    <div class="nav-dropdown">
-      <div class="nav-main">Apuntes ▾</div>
-      <div class="nav-sub">
-        <a href="apuntes.html">Todo</a>
-        <a href="index.html">AD</a>
-        <a href="index.html">Wi-Fi</a>
-        <a href="index.html">Web</a>
-        <a href="index.html">Starting Point</a>
+      <div class="nav-item">
+        <a href="writeup.html">Writeups</a>
       </div>
-    </div>
 
-  </nav>
-</aside>
+      <div class="nav-dropdown">
+        <div class="nav-main">Apuntes ▾</div>
+        <div class="nav-sub">
+          <a href="apuntes.html">Todo</a>
+          <a href="apuntes.html">Starting Point</a>
+          <a href="apuntes.html">Wi-Fi</a>
+          <a href="apuntes.html">AD</a>
+          <a href="apuntes.html">Web</a>
+        </div>
+      </div>
+    </nav>
+  </aside>
 
   <main>
-
-
-<section>
-  <h2>APUNTES</h2>
-
-  <div class="cert-grid">
-
-<h1>TRABAJANDO EN ELLO</h1>
-<img src="imagenes/image.png" alt="">
-  </div>
-
-</section>
-
+    <section>
+      <h2>APUNTES</h2>
+      <div id="content"></div>
+      <img src="imagenes/image.png" alt="">
+    </section>
   </main>
+
 </div>
 
+<!-- IMPORTANTE -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script src="script.js"></script>
 
 </body>

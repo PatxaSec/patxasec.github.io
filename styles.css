@@ -1,12 +1,9 @@
-/* RESET */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   }
 
-/* BASE */
 body {
 background: #05070d;
 color: #00ff9c;
@@ -14,7 +11,6 @@ font-family: monospace;
 line-height: 1.6;
 }
 
-/* GLOW */
 h1, h2, h3 {
 text-shadow: 0 0 5px #00ff9c;
 }
@@ -24,12 +20,10 @@ main {
   max-width: 100%;
 }
 
-/* LAYOUT */
 .container {
 display: flex;
 }
 
-/* SIDEBAR */
 .sidebar {
 width: 240px;
 height: 100vh;
@@ -39,7 +33,6 @@ border-right: 1px solid #00ff9c33;
 position: fixed;
 }
 
-/* LOGO */
 .logo {
 text-align: center;
 margin-bottom: 30px;
@@ -64,7 +57,6 @@ font-size: 12px;
 opacity: 0.7;
 }
 
-/* NAV */
 .sidebar nav a {
 display: block;
 color: #00ff9c;
@@ -116,19 +108,16 @@ opacity: 1;
 text-shadow: 0 0 8px #00ff9c;
 }
 
-/* MAIN */
 main {
 margin-left: 260px;
 padding: 40px;
 width: 100%;
 }
 
-/* SECTIONS */
 section {
 margin-bottom: 40px;
 }
 
-/* HERO */
 #home {
 display: flex;
 justify-content: center;
@@ -136,7 +125,6 @@ align-items: center;
 padding: 40px 0 20px;
 }
 
-/* TERMINAL */
 .terminal {
 background: #000;
 padding: 20px 25px;
@@ -158,7 +146,6 @@ font-size: 14px;
 color: #00ff9ccc;
 }
 
-/* CURSOR */
 .terminal::after {
 content: "_";
 margin-left: 5px;
@@ -169,7 +156,6 @@ animation: blink 1s infinite;
 50% { opacity: 0; }
 }
 
-/* CARDS */
 .card {
 background: #0b0f18;
 padding: 15px;
@@ -184,7 +170,6 @@ border-color: #00ff9c;
 box-shadow: 0 0 10px #00ff9c22;
 }
 
-/* CERT TITLES */
 #certs h3 {
 margin-top: 20px;
 font-size: 14px;
@@ -192,7 +177,6 @@ opacity: 0.8;
 letter-spacing: 1px;
 }
 
-/* GRID GENERAL */
 .cert-grid {
 display: flex;
 flex-wrap: wrap;
@@ -200,7 +184,6 @@ gap: 20px;
 margin-top: 20px;
 }
 
-/* CERT CARD */
 .cert-card {
 width: 110px;
 height: 110px;
@@ -231,7 +214,6 @@ transform: scale(1.05);
 filter: drop-shadow(0 0 5px #00ff9c);
 }
 
-
 .cert-item {
 display: flex;
 flex-direction: column;
@@ -252,16 +234,12 @@ opacity: 1;
 text-shadow: 0 0 5px #00ff9c;
 }
 
-/* CORE */
 .core .cert-card {
 width: 140px;
 height: 140px;
 border: 1px solid #00ff9c55;
 box-shadow: 0 0 15px #00ff9c22;
 }
-
-/*REPOS */
-
 
 .repo-card {
 width: 110px;
@@ -291,10 +269,20 @@ text-align: center;
 opacity: 0.8;
 }
 
-.repo-card:hover img {
+.repo-card:hover {
 border-color: #00ff9c;
-box-shadow: 0 0 15px #00ff9c33;
 transform: scale(1.05);
+filter: drop-shadow(0 0 5px #00ff9c);
+}
+
+.repo-card:hover img{
+border-color: #00ff9c;
+transform: scale(1.05);
+filter: drop-shadow(0 0 5px #00ff9c);
+}
+
+.contact-card:hover img {
+filter: drop-shadow(0 0 5px #00ff9c);
 }
 
 .repo-card:hover span {
@@ -302,7 +290,6 @@ opacity: 1;
 text-shadow: 0 0 5px #00ff9c;
 }
 
-/* WHOAMI */
 .whoami-terminal {
 background: #000;
 border: 1px solid #00ff9c22;
@@ -332,7 +319,6 @@ opacity: 0.85;
 word-break: break-word;
 }
 
-/* IN PROGRESS */
 .in-progress {
 cursor: default;
 opacity: 0.8;
@@ -364,7 +350,6 @@ opacity: 1;
 filter: grayscale(0%) brightness(1);
 }
 
-/* SCANLINES */
 .scanlines::before {
 content: "";
 position: fixed;
@@ -379,15 +364,13 @@ pointer-events: none;
 z-index: 999;
 }
 
-/* CONTACT */
-/* CONTENEDOR */
 .contact-grid {
   display: flex;
   flex-wrap: wrap;     
   gap: 25px;           
   margin-top: 20px;
 }
-/* CARD */
+
 .contact-card {
   display: flex;
   flex-direction: column;
@@ -407,10 +390,20 @@ z-index: 999;
   transition: 0.25s;
 }
 
-/* HOVER */
 .contact-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 0 15px rgba(0, 255, 150, 0.4);
+}
+
+.contact-card:hover img{
+border-color: #00ff9c;
+transform: scale(1.05);
+filter: drop-shadow(0 0 5px #00ff9c);
+}
+
+.contact-item:hover span {
+opacity: 1;
+text-shadow: 0 0 5px #00ff9c;
 }
 
 .contact-card img {
@@ -421,23 +414,38 @@ z-index: 999;
   margin-bottom: 10px;
 }
 
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-item span {
+  font-size: 12px;
+  text-align: center;
+  opacity: 0.8;
+  color: #00ff9c;
+}
+
 .invert-icon {
   filter: invert(1) brightness(1.5);
 }
 
-/* TEXTO */
+
 .contact-card span {
   font-size: 0.9rem;
 }
 
 #content {
   width: 100%;
-  max-width: 900px;     /* 🔥 clave */
+  max-width: 900px;     
   width: 100%;
   max-width: 900px;
   line-height: 1.7;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  color: #ffffff;
 }
 
 #content h1 { margin: 30px 0 15px; }
@@ -464,8 +472,8 @@ z-index: 999;
   overflow-x: auto;
   margin: 20px 0;
   box-shadow: 0 0 10px #00ff9c22;
-  white-space: pre-wrap;      /* 🔥 rompe líneas */
-  word-break: break-word;     /* 🔥 evita overflow */
+  white-space: pre-wrap;      
+  word-break: break-word;   
   overflow: hidden;     
 }
 
@@ -502,10 +510,9 @@ z-index: 999;
   flex-direction: column;
   gap: 20px;
   width: 100%;
-  max-width: 800px;   /* IMPORTANTE */
+  max-width: 800px;   
 }
 
-/* FILA */
 .writeup-row {
   grid-template-columns: 60px 2fr 1fr 1fr;
   display: grid;
@@ -525,8 +532,8 @@ z-index: 999;
 
 .writeup-info > div {
   display: flex;
-  justify-content: center;  /* centra horizontal */
-  align-items: center;      /* centra vertical */
+  justify-content: center; 
+  align-items: center;      
 }
 
 .writeup-row:hover {
@@ -534,7 +541,6 @@ z-index: 999;
   transform: scale(1.01); 
 }
 
-/* LOGO */
 .writeup-row img {
   width: 40px;
   height: 40px;
@@ -542,7 +548,6 @@ z-index: 999;
   margin-right: 20px;
 }
 
-/* INFO DISTRIBUIDA */
 .writeup-info {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -551,7 +556,6 @@ z-index: 999;
   gap: 40px; 
 }
 
-/* TEXTO */
 .name {
   justify-content:center; 
   padding-left: 20px;
@@ -588,7 +592,6 @@ z-index: 999;
   color: white;
 }
 
-/* DIFICULTAD */
 .difficulty {
   text-align: right;
   padding: 4px 10px;
@@ -620,22 +623,19 @@ z-index: 999;
   color: white;
 }
 
-/* ===== FORTRESS COMO OS ===== */
 .os.lab {
-  background: #2b0033;           /* base oscura */
-  border: 1px solid #ff00ff;     /* magenta */
+  background: #2b0033;          
+  border: 1px solid #ff00ff;     
   color: #ff00ff;
-  opacity: 1;                    /* override del .os */
+  opacity: 1;                    
 }
 
-/* ===== LAB COMO DIFFICULTY ===== */
 .difficulty.lab {
-  background: #002a33;           /* cyan oscuro */
+  background: #002a33;          
   border: 1px solid #00d4ff;
   color: #00d4ff;
 }
 
-/* Hover efectos (coherente con tu glow) */
 .writeup-row:hover .os.lab {
   box-shadow: 0 0 8px rgba(255, 0, 255, 0.4);
 }
@@ -698,7 +698,6 @@ z-index: 999;
   position: relative;
 }
 
-/* 🔒 Candado */
 .fortress-link::before {
   content: "🔒";
   position: absolute;
@@ -707,13 +706,11 @@ z-index: 999;
   opacity: 0.8;
 }
 
-/* Ajuste para que no pise el icono */
 .fortress-link img {
   margin-left: 15px;
 }
-/* 📱 MOBILE */
 
-
+/* MOBILE */
 @media (max-width: 768px) {
 
 .container {
@@ -772,7 +769,6 @@ padding: 15px;
 
 section { margin-bottom: 30px; }
 
-/* TOUCH */
 .repo-card:active,
 .cert-card:active,
 .contact-item:active {
