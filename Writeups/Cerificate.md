@@ -11,16 +11,6 @@ El camino Tomado es:
 - ACL Abuse
 - SeManageVolumePrivilege
 - Golden Certificate
-
-El posible camino original encontrado:
-
-- ZIP concatenation
-- ACL Abuse
-- PCAP Analisys
-- ESC3
-- SeManageVolumePrivilege
-- Golden Certificate
-
 ---
 
 

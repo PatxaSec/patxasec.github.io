@@ -393,6 +393,7 @@ Por política de contraseñas hacen falta 7 caracteres o mas:
 Asique primero eliminaremos del rockyou las contraseñas de menos carácteres:
 
 ```python
+
 import os
 import re
 
@@ -459,6 +460,8 @@ if __name__ == '__main__':
     save_to_file(passwords, output_file)
 
 ```
+
+
 
 ![image](Imágenes/20250521173848.png)
 
