@@ -106,25 +106,79 @@ document.addEventListener("DOMContentLoaded", () => {
 // LOAD MARKDOWN
 // ========================
 function loadMarkdown(file) {
+
   const content = document.getElementById("content");
   if (!content) return;
 
-  const page = window.location.pathname.split("/").pop();
-  const folder = page === "apuntes.html" ? "Apuntes" : "Writeups";
+  // ========================
+  // Auto folder detection
+  // ========================
+  let folder = "";
 
-  fetch(`${folder}/${file}`)
+  if (file.includes("Articulos/")) {
+    folder = "Articulos";
+  }
+  else if (file.includes("Writeups/")) {
+    folder = "Writeups";
+  }
+  else {
+
+    // fallback legacy
+    folder = "Writeups";
+  }
+
+  // ========================
+  // Build path
+  // ========================
+  let filePath = file;
+
+  // Compatibilidad legacy
+  if (!file.includes("/")) {
+    filePath = `${folder}/${file}`;
+  }
+
+  fetch(filePath)
+
     .then(res => {
-      if (!res.ok) throw new Error("No se encontró el archivo");
+
+      if (!res.ok) {
+        throw new Error("No se encontró el archivo");
+      }
+
       return res.text();
     })
-    .then(md => {
-      md = md.replaceAll("](imagenes/", `](${folder}/imagenes/`);
-      md = md.replaceAll("](Imágenes/", `](${folder}/Imágenes/`);
 
+    .then(md => {
+
+      // ========================
+      // Fix image paths
+      // ========================
+      md = md.replaceAll(
+        "](imagenes/",
+        `](${folder}/imagenes/`
+      );
+
+      md = md.replaceAll(
+        "](Imágenes/",
+        `](${folder}/Imágenes/`
+      );
+
+      md = md.replaceAll(
+        'src="imagenes/',
+        `src="${folder}/imagenes/`
+      );
+
+      // ========================
+      // Render markdown
+      // ========================
       content.innerHTML = marked.parse(md);
     })
+
     .catch(err => {
-      content.innerHTML = "<p style='color:red;'>Error cargando archivo</p>";
+
+      content.innerHTML =
+        "<p style='color:red;'>Error cargando archivo</p>";
+
       console.error(err);
     });
 }

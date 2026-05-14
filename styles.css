@@ -234,6 +234,61 @@ opacity: 1;
 text-shadow: 0 0 5px #00ff9c;
 }
 
+.cert-overlay-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.cert-overlay-buttons {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(2px);
+
+  opacity: 0;
+  transition: 0.3s ease;
+
+  border-radius: 10px;
+}
+
+.cert-overlay-container:hover .cert-overlay-buttons {
+  opacity: 1;
+}
+
+.cert-btn {
+  min-width: 110px;
+  padding: 8px 14px;
+
+  border: 1px solid #00ff9c55;
+  border-radius: 6px;
+
+  background: rgba(0, 255, 156, 0.08);
+
+  color: #00ff9c;
+  text-decoration: none;
+  text-align: center;
+
+  font-size: 12px;
+  font-family: monospace;
+
+  transition: 0.25s ease;
+}
+
+.cert-btn:hover {
+  background: #00ff9c;
+  color: #05070d;
+
+  box-shadow: 0 0 10px #00ff9c88;
+  transform: scale(1.05);
+}
+
 .core .cert-card {
 width: 140px;
 height: 140px;
@@ -762,6 +817,18 @@ padding: 15px;
 .cert-card { width: 90px; height: 90px; }
 .core .cert-card { width: 110px; height: 110px; }
 
+  .cert-overlay-buttons {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.72);
+  }
+
+  .cert-btn {
+    min-width: 90px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
+
 .repo-card img { 
   width: 90px; 
   height: 90px;
@@ -775,5 +842,5 @@ section { margin-bottom: 30px; }
 transform: scale(0.97);
 box-shadow: 0 0 10px #00ff9c33;
 }
-}
+
 

@@ -37,26 +37,19 @@
 
     <!-- WRITEUPS (ENLACE ÚNICO) -->
     <div class="nav-item">
-      <a href="writeup.html">Writeups</a>
+      <a href="writeup.html">Artículos y Writeups</a>
     </div>
 
-    <!-- APUNTES DROPDOWN -->
-<div class="nav-dropdown">
-        <div class="nav-main">Apuntes ▾</div>
-        <div class="nav-sub">
-          <a href="apuntes.html">Todo</a>
-          <a href="apuntes.html">Starting Point</a>
-          <a href="apuntes.html">Wi-Fi</a>
-          <a href="apuntes.html">AD</a>
-          <a href="apuntes.html">Web</a>
-        </div>
-      </div>
 
   </nav>
 </aside>
 
   <!-- Main -->
   <main>
+
+        <section>
+      <div id="content"></div> 
+    </section>
 
     <!-- TERMINAL -->
     <section id="home">
@@ -190,27 +183,39 @@
       <h3>CORE</h3>
 <div class="cert-grid core">
 
-  <div class="cert-item">
-    <a href="https://credentials.offsec.com/d57f99f6-9945-4757-bf55-e4cdcb201de2#acc.9tbBrmPz" target="_blank" class="cert-card core-card">
-      <img src="imagenes/oswp.png" alt="OSWP">
-    </a>
-    <span>OSWP</span>
-  </div>
+<div class="cert-item">
+  <div class="cert-card core-card cert-overlay-container">
+    <img src="imagenes/cape.png" alt="HTB CAPE">
 
-  <div class="cert-item">
-    <div class="cert-card core-card in-progress">
-      <img src="imagenes/oscp.png" alt="OSCP">
-      <span class="overlay">EN PROGRESO</span>
+    <div class="cert-overlay-buttons">
+      <a href="writeup.html?file=Articulos/cape.md" class="cert-btn" target="_blank">Feedback</a>
+      <a href="https://www.credly.com/badges/c95c845d-86ad-4729-9924-75f5db784679/public_url" class="cert-btn" target="_blank">Ver Credencial</a>
     </div>
-    <span>OSCP</span>
   </div>
 
-  <div class="cert-item">
-    <a href="https://www.credly.com/badges/c95c845d-86ad-4729-9924-75f5db784679/public_url" target="_blank" class="cert-card core-card">
-      <img src="imagenes/cape.png" alt="HTB CAPE">
-    </a>
-    <span>HTB CAPE</span>
+  <span>HTB CAPE</span>
+</div>
+
+<div class="cert-item">
+  <div class="cert-card core-card cert-overlay-container">
+    <img src="imagenes/oswp.png" alt="OSWP">
+
+    <div class="cert-overlay-buttons">
+      <a href="writeup.html?file=Articulos/oswp.md" class="cert-btn" target="_blank">Feedback</a>
+      <a href="https://credentials.offsec.com/d57f99f6-9945-4757-bf55-e4cdcb201de2#acc.9tbBrmPz" class="cert-btn" target="_blank">Ver Credencial</a>
+    </div>
   </div>
+
+  <span>OSWP</span>
+</div>
+
+<div class="cert-item">
+  <div class="cert-card core-card in-progress">
+    <img src="imagenes/oscp.png" alt="OSCP">
+    <span class="overlay">EN PROGRESO</span>
+  </div>
+  <span>OSCP</span>
+</div>
 
 </div>
 
