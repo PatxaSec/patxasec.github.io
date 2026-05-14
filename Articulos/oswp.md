@@ -79,6 +79,6 @@ Como primera experiencia con OffSec me sirvió para ganar soltura, acostumbrarme
 
 ¿La recomendaría?
 
-Probablemente solo si ya viene incluida dentro de algún plan de formación como Learn One o si quieres una primera toma de contacto bastante asequible con el estilo de certificaciones prácticas de OffSec.
+Probablemente solo si ya viene incluida dentro de algún plan de formación como Learn One o si quieres una primera toma de contacto más llevadera con el estilo de certificaciones prácticas de OffSec.
 
 ![alt text](../imagenes/oswp_cert.png)
