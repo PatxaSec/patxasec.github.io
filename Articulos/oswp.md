@@ -1,4 +1,4 @@
-# OSWP (OffSec Wireless Professional) – Mi experiencia y opinión
+# OSWP (OffSec Wireless Professional)
 
 ![alt text](../imagenes/oswp.png)
 

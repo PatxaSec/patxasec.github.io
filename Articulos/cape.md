@@ -1,4 +1,4 @@
-# HTB Certified Active Directory Pentesting Expert (CAPE) – Mi experiencia
+# HTB Certified Active Directory Pentesting Expert (CAPE)
 
 `Publicado en mayo de 2026 por PatxaSec`
 
