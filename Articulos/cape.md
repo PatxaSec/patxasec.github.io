@@ -1,4 +1,4 @@
-# HTB Certified Active Directory Pentesting Expert (CAPE)
+# CAPE (Certified Active Directory Pentesting Expert)
 
 `Publicado en mayo de 2026 por PatxaSec`
 
