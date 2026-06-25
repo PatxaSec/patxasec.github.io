@@ -765,82 +765,243 @@ text-shadow: 0 0 5px #00ff9c;
   margin-left: 15px;
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
+/* ===========================
+   MOBILE
+=========================== */
+@media (max-width:768px){
 
-.container {
-flex-direction: column;
+/* Layout */
+
+.container{
+    flex-direction:column;
 }
 
-.sidebar {
-position: relative;
-width: 100%;
-height: auto;
-border-right: none;
-border-bottom: 1px solid #00ff9c33;
-text-align: center;
+.sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+    border-right:none;
+    border-bottom:1px solid #00ff9c33;
+    text-align:center;
 }
 
-.logo img { width: 60px; height: 60px; }
-.logo h2 { font-size: 16px; }
-.logo p { font-size: 11px; }
-
-.sidebar nav {
-display: flex;
-flex-wrap: wrap;
-justify-content: center;
-gap: 10px;
+.logo img{
+    width:60px;
+    height:60px;
 }
 
-.sidebar nav a {
-font-size: 12px;
+.logo h2{
+    font-size:16px;
 }
 
-main {
-margin-left: 0;
-padding: 20px;
+.logo p{
+    font-size:11px;
 }
 
-.terminal {
-width: 100%;
-padding: 15px;
+.sidebar nav{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
 }
 
-.terminal h1 { font-size: 20px; }
-.terminal p { font-size: 13px; }
-
-.whoami-terminal { padding: 12px; }
-.whoami-terminal p { font-size: 13px; }
-
-.output { margin-left: 10px; }
-
-.cert-card { width: 90px; height: 90px; }
-.core .cert-card { width: 110px; height: 110px; }
-
-  .cert-overlay-buttons {
-    opacity: 1;
-    background: rgba(0, 0, 0, 0.72);
-  }
-
-  .cert-btn {
-    min-width: 90px;
-    padding: 6px 10px;
-    font-size: 11px;
-  }
+.sidebar nav a{
+    font-size:12px;
 }
 
-.repo-card img { 
-  width: 90px; 
-  height: 90px;
+main{
+    margin-left:0;
+    padding:20px;
 }
 
-section { margin-bottom: 30px; }
+section{
+    margin-bottom:35px;
+}
+
+section h2,
+section h3{
+    text-align:center;
+}
+
+/* Terminal */
+
+.terminal{
+    width:100%;
+    padding:15px;
+}
+
+.terminal h1{
+    font-size:20px;
+}
+
+.terminal p{
+    font-size:13px;
+}
+
+.whoami-terminal{
+    padding:12px;
+}
+
+.whoami-terminal p{
+    font-size:13px;
+}
+
+.output{
+    margin-left:10px;
+}
+
+/* ===========================
+   CERTIFICACIONES
+=========================== */
+
+.cert-grid,
+.contact-grid{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:flex-start;
+    gap:22px;
+    width:100%;
+}
+
+.cert-item,
+.contact-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.cert-item span,
+.contact-item span{
+    margin-top:10px;
+    text-align:center;
+}
+
+.cert-card{
+    width:95px;
+    height:95px;
+}
+
+.core .cert-card{
+    width:115px;
+    height:115px;
+}
+
+/* Overlay */
+
+.cert-overlay-buttons{
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+}
+
+.cert-overlay-container.active .cert-overlay-buttons{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.cert-btn{
+    min-width:90px;
+    padding:6px 10px;
+    font-size:11px;
+}
+
+/* ===========================
+   WRITEUPS
+=========================== */
+
+.writeup-list{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+    width:100%;
+}
+
+.writeup-row{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    width:100%;
+    max-width:340px;
+
+    padding:20px;
+    box-sizing:border-box;
+
+    text-align:center;
+    gap:12px;
+}
+
+.writeup-row img{
+    width:72px;
+    height:72px;
+    margin:auto;
+}
+
+.writeup-row .col{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.writeup-row .name{
+    font-size:20px;
+    font-weight:700;
+}
+
+.writeup-row .os,
+.writeup-row .difficulty{
+    width:auto;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    padding:8px 18px;
+}
+
+/* ===========================
+   REPOSITORIOS
+=========================== */
+
+#repos .cert-grid{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:22px;
+}
+
+.repo-card{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    width:120px;
+}
+
+.repo-card img{
+    width:90px;
+    height:90px;
+}
+
+.repo-card span{
+    margin-top:10px;
+}
+
+/* ===========================
+   EFECTOS
+=========================== */
 
 .repo-card:active,
 .cert-card:active,
-.contact-item:active {
-transform: scale(0.97);
-box-shadow: 0 0 10px #00ff9c33;
+.contact-item:active{
+    transform:scale(.97);
+    box-shadow:0 0 10px #00ff9c33;
 }
 
-
+}

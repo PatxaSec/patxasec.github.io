@@ -225,3 +225,30 @@ function checkAccess() {
 function closePopup() {
   document.getElementById("fortress-popup")?.classList.add("hidden");
 }
+
+// ========================
+// MOVIL
+// ========================
+
+document.querySelectorAll('.cert-overlay-container').forEach(card => {
+
+    card.addEventListener('click', function(e){
+
+        if(e.target.classList.contains('cert-btn')) return;
+
+        document.querySelectorAll('.cert-overlay-container').forEach(c=>{
+            if(c!==card) c.classList.remove('active');
+        });
+
+        card.classList.toggle('active');
+    });
+
+});
+
+document.addEventListener('click', function(e){
+    if(!e.target.closest('.cert-overlay-container')){
+        document.querySelectorAll('.cert-overlay-container').forEach(c=>{
+            c.classList.remove('active');
+        });
+    }
+});
