@@ -183,7 +183,7 @@ Durante el examen puedes encontrarte con una situación en la que una herramient
 
 En esos momentos es importante saber buscar información, leer documentación, entender el funcionamiento de las herramientas y plantear alternativas.
 
-**La metodología te ayuda a saber por dónde empezar, pero la capacidad de investigación es lo que te permite seguir avanzando cuando las cosas no salen como esperabas.**
+### La metodología te ayuda a saber por dónde empezar, pero la capacidad de investigación es lo que te permite seguir avanzando cuando las cosas no salen como esperabas.
 
 ---
 
@@ -262,7 +262,7 @@ También me quedo con la importancia de documentar correctamente el trabajo. Alg
 
 En definitiva, una certificación que tenía pendiente, un buen reto y una experiencia más para seguir aprendiendo.
 
-**OSCP y OSCP+ conseguidas. Seguimos. A por la próxima...**
+## **OSCP y OSCP+ conseguidas. Seguimos. A por la próxima...**
 
 ---
 
